@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^3.0.81",
+    "@ai-sdk/groq": "^3.0.39",
     "@clerk/nextjs": "^7.4.3",
     "ai": "^6.0.197",
     "drizzle-orm": "^0.45.2",
