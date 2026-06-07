@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 5-minute Leads
 
-## Getting Started
+CRM omnicanal propio, **standalone y multi-tenant**: captura omnicanal (WhatsApp + Instagram + web), respuesta reactiva en <5 min con asistencia de IA, lead scoring, pipeline/funnel y reporting.
 
-First, run the development server:
+Tenants piloto: **RobotSchool** y **Metron**.
+
+## Stack (full-stack TypeScript, managed-first)
+
+| Capa | Tecnología |
+|------|-----------|
+| App | **Next.js 16** (App Router, Server Actions) + TypeScript |
+| Auth + multi-tenant | **Clerk** (Organizations) — el `orgId` de Clerk es el tenant key |
+| Base de datos | **Supabase** (Postgres + Realtime + RLS) vía **Drizzle ORM** |
+| Webhooks / jobs durables | **Inngest** (reintentos, agente reactivo) |
+| IA | **Vercel AI SDK** + `@ai-sdk/anthropic` (Claude haiku/opus) |
+| UI | Tailwind v4 (shadcn/ui pendiente) |
+| Hosting | **Vercel** (app) + **Supabase** (DB) |
+
+No hay tablas `org`/`user` propias: la identidad de tenant y usuarios vive en Clerk. Toda tabla de negocio lleva `orgId` (Clerk) y se filtra por él vía `requireOrg()`.
+
+## Roadmap por fases
+
+| Fase | Entrega |
+|------|---------|
+| **F1** | Núcleo CRM: contacts, companies, pipelines, stages, deals, activities + auth Clerk + kanban + timeline |
+| **F2** | Bandeja omnicanal: `ChannelProvider` (meta_cloud / instagram / evolution) + webhooks vía Inngest + SLA/speed-to-lead (Realtime) |
+| **F3** | Agente reactivo IA: triage, auto-respuesta (human-in-the-loop), lead scoring por reglas |
+| **F4** | Automatización (secuencias) + reporting (embudo, conversion, velocity, forecast, BANT) |
+
+## Desarrollo
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.local.example .env.local     # rellenar Clerk + Supabase + Anthropic
+npm install
+npm run db:push                      # crea el schema en Supabase (drizzle-kit)
+npm run dev                          # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Estado actual: **base F1** — schema de datos, auth Clerk (sign-in/up, orgs), shell del panel. Falta: CRUD de contactos/deals, kanban, timeline, migraciones aplicadas.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> Decisiones de diseño en `DECISIONS.md`. Contexto de negocio y fases en el vault: `20 - Projects/Active/Producto - CRM Omnicanal.md`.
