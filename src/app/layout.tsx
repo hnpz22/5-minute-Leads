@@ -1,21 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "CRM Omnicanal",
-  description: "Captura, responde y cierra leads de WhatsApp e Instagram en un solo lugar.",
+  title: "5-minute Leads — responde a cada lead en menos de 5 minutos",
+  description:
+    "El CRM omnicanal que captura tus leads de WhatsApp e Instagram, los responde al instante con IA y los lleva por tu funnel hasta el cierre.",
 };
 
 export default function RootLayout({
@@ -25,10 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html
-        lang="es"
-        className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-      >
+      <html lang="es" className={`${inter.variable} h-full`}>
         <body className="min-h-full flex flex-col">{children}</body>
       </html>
     </ClerkProvider>
