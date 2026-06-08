@@ -3,19 +3,19 @@ import Link from "next/link";
 import { createContact } from "../actions";
 
 const inputCls =
-  "w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-black focus:outline-none";
+  "w-full rounded-md border border-line bg-white px-3 py-2 text-sm focus:border-ink focus:outline-none";
 
 export default function NewContactPage() {
   return (
     <div className="max-w-xl space-y-6">
       <div>
-        <Link href="/contacts" className="text-sm text-zinc-500 hover:underline">
+        <Link href="/contacts" className="text-sm text-ink-muted hover:underline">
           ← Contactos
         </Link>
-        <h1 className="mt-1 text-2xl font-semibold">Nuevo contacto</h1>
+        <h1 className="mt-1 text-2xl font-bold tracking-tight">Nuevo contacto</h1>
       </div>
 
-      <form action={createContact} className="space-y-4">
+      <form action={createContact} className="space-y-4 rounded-lg border border-line bg-white p-5">
         <div>
           <label className="mb-1 block text-sm font-medium">Nombre *</label>
           <input name="fullName" required className={inputCls} />
@@ -56,13 +56,13 @@ export default function NewContactPage() {
         <div className="flex gap-3">
           <button
             type="submit"
-            className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+            className="rounded-md bg-ink px-4 py-2 text-sm font-medium text-cream hover:opacity-90"
           >
             Guardar
           </button>
           <Link
             href="/contacts"
-            className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-50"
+            className="rounded-md border border-line px-4 py-2 text-sm font-medium hover:bg-cream-alt"
           >
             Cancelar
           </Link>

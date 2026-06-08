@@ -29,10 +29,10 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold">Panel</h1>
-        <p className="text-sm text-zinc-500">
+        <h1 className="text-2xl font-bold tracking-tight">Panel</h1>
+        <p className="text-sm text-ink-muted">
           Organización activa: <span className="font-mono">{orgSlug ?? orgId}</span> · rol{" "}
           {orgRole}
         </p>
@@ -43,18 +43,19 @@ export default async function DashboardPage() {
           <Link
             key={kpi.label}
             href={kpi.href}
-            className="rounded-lg border border-zinc-200 p-4 hover:border-zinc-400"
+            className="rounded-lg border border-ink bg-white p-5 shadow-hard-sm transition-transform hover:-translate-y-0.5"
           >
-            <div className="text-sm text-zinc-500">{kpi.label}</div>
-            <div className="mt-1 text-2xl font-semibold">{kpi.value}</div>
+            <div className="text-sm text-ink-muted">{kpi.label}</div>
+            <div className="mt-1 text-3xl font-bold tracking-tight">{kpi.value}</div>
           </Link>
         ))}
       </div>
 
-      <p className="text-sm text-zinc-400">
-        Las métricas de tiempo a 1ª respuesta y speed-to-lead se activan con la bandeja
-        omnicanal (F2) y el agente reactivo (F3).
-      </p>
+      <div className="rounded-lg border border-line bg-lime-soft p-4 text-sm text-ink-soft">
+        ⚡ Las métricas de <strong>tiempo a 1ª respuesta</strong> y speed-to-lead se llenan
+        cuando conectas WhatsApp en la <Link href="/inbox" className="underline">Bandeja</Link>{" "}
+        y el agente empieza a responder.
+      </div>
     </div>
   );
 }

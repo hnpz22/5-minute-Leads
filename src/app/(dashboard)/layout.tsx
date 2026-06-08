@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 
+import { NavLink } from "./nav-link";
+
 const nav = [
   { href: "/dashboard", label: "Panel" },
+  { href: "/inbox", label: "Bandeja" },
   { href: "/contacts", label: "Contactos" },
   { href: "/pipeline", label: "Pipeline" },
-  { href: "/inbox", label: "Bandeja" },
 ];
 
 export default function DashboardLayout({
@@ -15,29 +17,31 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex min-h-full flex-col">
-      <header className="flex items-center justify-between border-b border-zinc-200 px-6 py-3">
-        <div className="flex items-center gap-6">
-          <Link href="/dashboard" className="font-semibold">
-            CRM
-          </Link>
-          <nav className="flex gap-4 text-sm text-zinc-600">
-            {nav.map((item) => (
-              <Link key={item.href} href={item.href} className="hover:text-black">
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-        <div className="flex items-center gap-3">
-          <OrganizationSwitcher
-            hidePersonal
-            afterCreateOrganizationUrl="/dashboard"
-            afterSelectOrganizationUrl="/dashboard"
-          />
-          <UserButton />
+      <header className="sticky top-0 z-10 border-b border-line bg-cream/80 backdrop-blur">
+        <div className="flex items-center justify-between px-6 py-3">
+          <div className="flex items-center gap-8">
+            <Link href="/dashboard" className="text-base font-bold tracking-tight">
+              5-minute<span className="text-ink-muted"> Leads</span>
+            </Link>
+            <nav className="flex gap-6">
+              {nav.map((item) => (
+                <NavLink key={item.href} href={item.href}>
+                  {item.label}
+                </NavLink>
+              ))}
+            </nav>
+          </div>
+          <div className="flex items-center gap-3">
+            <OrganizationSwitcher
+              hidePersonal
+              afterCreateOrganizationUrl="/dashboard"
+              afterSelectOrganizationUrl="/dashboard"
+            />
+            <UserButton />
+          </div>
         </div>
       </header>
-      <main className="flex-1 p-6">{children}</main>
+      <main className="flex-1 px-6 py-8">{children}</main>
     </div>
   );
 }
