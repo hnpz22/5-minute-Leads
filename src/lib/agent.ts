@@ -1,9 +1,24 @@
 import { createGroq } from "@ai-sdk/groq";
-import { generateObject } from "ai";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { generateObject, type LanguageModel } from "ai";
 import { z } from "zod";
 
-const groq = createGroq({ apiKey: process.env.GROQ_API_KEY });
-const MODEL = "llama-3.3-70b-versatile";
+/**
+ * Modelo del agente, agnóstico de proveedor: usa Groq si hay key (gratis y
+ * rápido), si no Gemini Flash (también gratis). Así no dependemos de un solo
+ * portal. Para subir calidad después, se puede añadir Claude.
+ */
+function getModel(): LanguageModel {
+  if (process.env.GROQ_API_KEY) {
+    return createGroq({ apiKey: process.env.GROQ_API_KEY })("llama-3.3-70b-versatile");
+  }
+  if (process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
+    return createGoogleGenerativeAI({
+      apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+    })("gemini-2.0-flash");
+  }
+  throw new Error("Configura GROQ_API_KEY o GOOGLE_GENERATIVE_AI_API_KEY");
+}
 
 export const triageSchema = z.object({
   intent: z
@@ -42,7 +57,7 @@ export async function triageLead(opts: {
     .join("\n");
 
   const { object } = await generateObject({
-    model: groq(MODEL),
+    model: getModel(),
     schema: triageSchema,
     system: SYSTEM,
     prompt: `Empresa: ${opts.businessName ?? "(sin nombre)"}
