@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { auth } from "@clerk/nextjs/server";
 
 const features = [
@@ -40,9 +41,14 @@ export default async function Home() {
       {/* Nav */}
       <header className="sticky top-0 z-10 border-b border-line bg-cream/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <span className="text-lg font-bold tracking-tight">
-            5-minute<span className="text-ink-muted"> Leads</span>
-          </span>
+          <Image
+            src="/brand/logo.png"
+            alt="5-minute Leads"
+            width={264}
+            height={144}
+            className="h-9 w-auto rounded-md"
+            priority
+          />
           <nav className="flex items-center gap-3 text-sm">
             {userId ? (
               <Link href="/dashboard" className="rounded-md bg-ink px-4 py-2 font-medium text-cream hover:opacity-90">
@@ -63,7 +69,17 @@ export default async function Home() {
       </header>
 
       {/* Hero */}
-      <section className="mx-auto w-full max-w-6xl px-6 pt-20 pb-16 text-center">
+      <section className="mx-auto w-full max-w-6xl px-6 pt-16 pb-16 text-center">
+        <div className="mb-8 flex justify-center">
+          <Image
+            src="/brand/logo.png"
+            alt="5-minute Leads"
+            width={352}
+            height={192}
+            className="h-20 w-auto rounded-xl shadow-hard"
+            priority
+          />
+        </div>
         <span className="inline-flex items-center gap-2 rounded-full border border-line bg-lime-soft px-3 py-1 text-xs font-medium">
           <span className="h-2 w-2 rounded-full bg-lime-deep" /> CRM omnicanal con agente reactivo
         </span>
